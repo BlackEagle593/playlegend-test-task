@@ -1,0 +1,13 @@
+name: @NAME@
+version: @VERSION@
+
+main: @GROUP@.@PACKAGE_NAME@.PlayLegendTestTaskPlugin
+api-version: 1.17
+load: STARTUP
+
+author: _BlackEagle_
+description: The test task for the playlegend application is a simple ban system.
+
+commands:
+  ban:
+  unban:

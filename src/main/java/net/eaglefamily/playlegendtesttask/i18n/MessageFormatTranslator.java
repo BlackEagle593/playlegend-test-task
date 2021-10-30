@@ -11,7 +11,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-public final class MessageFormatTranslator implements Translator {
+public class MessageFormatTranslator implements Translator {
 
   private final Map<String, MessageFormat> cachedMessageFormats = Maps.newConcurrentMap();
   private final ExternalResourceBundle externalResourceBundle;

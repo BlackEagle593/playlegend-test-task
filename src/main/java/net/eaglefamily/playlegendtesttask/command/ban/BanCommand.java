@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class BanCommand implements CommandExecutor {
 
+
   private BanCommand() {
   }
 

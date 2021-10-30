@@ -9,6 +9,8 @@ import net.eaglefamily.playlegendtesttask.command.unban.UnbanTabCompleter;
 import net.eaglefamily.playlegendtesttask.i18n.MessageFormatTranslator;
 import net.eaglefamily.playlegendtesttask.i18n.Translator;
 import net.eaglefamily.playlegendtesttask.listener.BannedLoginListener;
+import net.eaglefamily.playlegendtesttask.repository.BanRepository;
+import net.eaglefamily.playlegendtesttask.repository.LocalBanRepository;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,10 +18,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PlayLegendTestTaskPlugin extends JavaPlugin {
 
   private Translator translator;
+  private BanRepository banRepository;
 
   @Override
   public void onEnable() {
     translator = MessageFormatTranslator.create(this);
+    banRepository = LocalBanRepository.create();
     registerCommands();
     registerListener();
   }

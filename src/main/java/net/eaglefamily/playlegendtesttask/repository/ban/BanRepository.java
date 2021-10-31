@@ -1,9 +1,9 @@
-package net.eaglefamily.playlegendtesttask.repository;
+package net.eaglefamily.playlegendtesttask.repository.ban;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
 import java.util.UUID;
-import net.eaglefamily.playlegendtesttask.repository.model.Ban;
+import net.eaglefamily.playlegendtesttask.repository.ban.Ban;
 
 public interface BanRepository {
 
@@ -11,5 +11,5 @@ public interface BanRepository {
 
   Completable saveBan(Ban ban);
 
-  Completable removeBan(Ban ban);
+  Completable removeBan(UUID uniqueId);
 }

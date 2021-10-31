@@ -25,8 +25,18 @@ public class MessageFormatTranslator implements Translator {
   }
 
   @Override
+  public Component translateDefault(String key, Object... arguments) {
+    return translate(Locale.getDefault(), key, arguments);
+  }
+
+  @Override
   public Component translate(Audience audience, String key, Object... arguments) {
     return translate(getLocaleOfAudience(audience), key, arguments);
+  }
+
+  @Override
+  public String translateStringDefault(String key, Object... arguments) {
+    return translateString(Locale.getDefault(), key, arguments);
   }
 
   @Override

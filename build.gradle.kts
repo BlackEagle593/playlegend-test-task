@@ -27,13 +27,18 @@ repositories {
 
 dependencies {
     // https://mvnrepository.com/artifact/com.google.guava/guava
-    implementation("com.google.guava:guava:31.0.1-jre")
+//    implementation("com.google.guava:guava:31.0.1-jre")
 
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation("commons-io:commons-io:2.11.0")
 
     // https://mvnrepository.com/artifact/io.reactivex.rxjava3/rxjava
-    implementation("io.reactivex.rxjava3:rxjava:3.1.1")
+    implementation("io.reactivex.rxjava3:rxjava:3.1.2")
+
+    implementation("org.jooq:jooq:3.15.4")
+    implementation("com.zaxxer:HikariCP:5.0.0")
+    implementation("org.flywaydb:flyway-core:8.0.2")
+    implementation("org.postgresql:postgresql:42.3.1")
 
     compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
     implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")

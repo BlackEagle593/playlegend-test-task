@@ -1,11 +1,10 @@
-package net.eaglefamily.playlegendtesttask.repository;
+package net.eaglefamily.playlegendtesttask.repository.ban;
 
 import com.google.common.collect.Maps;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
 import java.util.Map;
 import java.util.UUID;
-import net.eaglefamily.playlegendtesttask.repository.model.Ban;
 
 public class LocalBanRepository implements BanRepository {
 
@@ -35,8 +34,8 @@ public class LocalBanRepository implements BanRepository {
   }
 
   @Override
-  public Completable removeBan(Ban ban) {
-    localBans.remove(ban.getUniqueId());
+  public Completable removeBan(UUID uniqueId) {
+    localBans.remove(uniqueId);
     return Completable.complete();
   }
 }

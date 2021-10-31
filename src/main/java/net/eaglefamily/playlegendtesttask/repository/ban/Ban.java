@@ -1,31 +1,27 @@
-package net.eaglefamily.playlegendtesttask.repository.model;
+package net.eaglefamily.playlegendtesttask.repository.ban;
 
 import java.util.UUID;
 
 public class Ban {
 
-  private static final int PERMANENT = 0;
+  public static final int PERMANENT = 0;
 
   private final UUID uniqueId;
-  private final String cause;
   private final long endTimestamp;
+  private final String cause;
 
-  private Ban(UUID uniqueId, String cause, long endTimestamp) {
+  private Ban(UUID uniqueId, long endTimestamp, String cause) {
     this.uniqueId = uniqueId;
-    this.cause = cause;
     this.endTimestamp = endTimestamp;
+    this.cause = cause;
   }
 
-  public static Ban create(UUID uniqueId, String cause, long endTimestamp) {
-    return new Ban(uniqueId, cause, endTimestamp);
+  public static Ban create(UUID uniqueId, long endTimestamp, String cause) {
+    return new Ban(uniqueId, endTimestamp, cause);
   }
 
   public UUID getUniqueId() {
     return uniqueId;
-  }
-
-  public String getCause() {
-    return cause;
   }
 
   public long getEndTimestamp() {
@@ -34,5 +30,9 @@ public class Ban {
 
   public boolean isActive() {
     return endTimestamp == PERMANENT || System.currentTimeMillis() < endTimestamp;
+  }
+
+  public String getCause() {
+    return cause;
   }
 }

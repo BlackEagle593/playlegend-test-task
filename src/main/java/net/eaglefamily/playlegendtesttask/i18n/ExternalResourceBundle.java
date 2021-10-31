@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import org.apache.commons.io.FileUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 public class ExternalResourceBundle {
@@ -51,7 +52,7 @@ public class ExternalResourceBundle {
       FileUtils.copyInputStreamToFile(inputStream,
           new File(i18nDirectory, BUNDLE_NAME + ".properties"));
     } catch (IOException e) {
-      plugin.getLogger().log(Level.SEVERE, "Failed to copy default resource bundle", e);
+      Bukkit.getLogger().log(Level.SEVERE, "Failed to copy default resource bundle", e);
     }
   }
 
@@ -60,7 +61,7 @@ public class ExternalResourceBundle {
     try {
       urls = new URL[]{i18nDirectory.toURI().toURL()};
     } catch (MalformedURLException e) {
-      plugin.getLogger().log(Level.SEVERE, e, () -> "Failed to load bundle " + locale);
+      Bukkit.getLogger().log(Level.SEVERE, e, () -> "Failed to load bundle " + locale);
     }
 
     ClassLoader loader = new URLClassLoader(urls);

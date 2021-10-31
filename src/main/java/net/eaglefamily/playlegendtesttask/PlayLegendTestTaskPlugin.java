@@ -9,8 +9,12 @@ import net.eaglefamily.playlegendtesttask.command.unban.UnbanTabCompleter;
 import net.eaglefamily.playlegendtesttask.i18n.MessageFormatTranslator;
 import net.eaglefamily.playlegendtesttask.i18n.Translator;
 import net.eaglefamily.playlegendtesttask.listener.BannedLoginListener;
-import net.eaglefamily.playlegendtesttask.repository.BanRepository;
-import net.eaglefamily.playlegendtesttask.repository.LocalBanRepository;
+import net.eaglefamily.playlegendtesttask.listener.NameJoinListener;
+import net.eaglefamily.playlegendtesttask.repository.PostgresConnection;
+import net.eaglefamily.playlegendtesttask.repository.ban.BanRepository;
+import net.eaglefamily.playlegendtesttask.repository.ban.PostgresBanRepository;
+import net.eaglefamily.playlegendtesttask.repository.name.NameRepository;
+import net.eaglefamily.playlegendtesttask.repository.name.PostgresNameRepository;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,12 +22,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PlayLegendTestTaskPlugin extends JavaPlugin {
 
   private Translator translator;
+  private NameRepository nameRepository;
   private BanRepository banRepository;
 
   @Override
   public void onEnable() {
     translator = MessageFormatTranslator.create(this);
-    banRepository = LocalBanRepository.create();
+    PostgresConnection postgresConnection = PostgresConnection.create(this);
+    nameRepository = PostgresNameRepository.create(postgresConnection);
+    banRepository = PostgresBanRepository.create(postgresConnection);
     registerCommands();
     registerListener();
   }
@@ -36,19 +43,21 @@ public class PlayLegendTestTaskPlugin extends JavaPlugin {
   private void registerBanCommand() {
     PluginCommand banPluginCommand = getCommand("ban");
     checkNotNull(banPluginCommand);
-    banPluginCommand.setExecutor(BanCommand.create());
+    banPluginCommand.setExecutor(
+        BanCommand.create(this, translator, nameRepository, banRepository));
     banPluginCommand.setTabCompleter(BanTabCompleter.create());
   }
 
   private void registerUnbanCommand() {
     PluginCommand unbanPluginCommand = getCommand("unban");
     checkNotNull(unbanPluginCommand);
-    unbanPluginCommand.setExecutor(UnbanCommand.create());
+    unbanPluginCommand.setExecutor(UnbanCommand.create(translator, nameRepository, banRepository));
     unbanPluginCommand.setTabCompleter(UnbanTabCompleter.create());
   }
 
   private void registerListener() {
     PluginManager pluginManager = getServer().getPluginManager();
-    pluginManager.registerEvents(BannedLoginListener.create(), this);
+    pluginManager.registerEvents(BannedLoginListener.create(translator, banRepository), this);
+    pluginManager.registerEvents(NameJoinListener.create(nameRepository), this);
   }
 }

@@ -29,7 +29,7 @@ public class LocalBanRepository implements BanRepository {
 
   @Override
   public Completable saveBan(Ban ban) {
-    localBans.put(ban.getUniqueId(), ban);
+    localBans.put(ban.uniqueId(), ban);
     return Completable.complete();
   }
 

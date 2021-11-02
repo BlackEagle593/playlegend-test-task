@@ -15,7 +15,7 @@ import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
-public class ExternalResourceBundle {
+class ExternalResourceBundle {
 
   private static final String BUNDLE_NAME = "playlegend-test-task";
   private static final String DIRECTORY_NAME = "i18n";
@@ -34,11 +34,11 @@ public class ExternalResourceBundle {
     loadBundle(Locale.getDefault());
   }
 
-  public static ExternalResourceBundle create(Plugin plugin) {
+  static ExternalResourceBundle create(Plugin plugin) {
     return new ExternalResourceBundle(plugin);
   }
 
-  public ResourceBundle getBundle(Locale locale) {
+  ResourceBundle getBundle(Locale locale) {
     cachedBundles.computeIfAbsent(locale, ignored -> loadBundle(locale));
     return ResourceBundle.getBundle(BUNDLE_NAME, locale);
   }

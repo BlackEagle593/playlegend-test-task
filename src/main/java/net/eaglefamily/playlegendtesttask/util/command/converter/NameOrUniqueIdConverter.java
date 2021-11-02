@@ -1,4 +1,4 @@
-package net.eaglefamily.playlegendtesttask.util;
+package net.eaglefamily.playlegendtesttask.util.command.converter;
 
 import io.reactivex.rxjava3.core.Single;
 import java.util.Optional;
@@ -25,7 +25,7 @@ public class NameOrUniqueIdConverter {
           .orElse(ConvertedUniqueId.UUID_INVALID));
     } else {
       return nameRepository.getUniqueId(nameOrUniqueId)
-          .map(uniqueIdName -> ConvertedUniqueId.create(uniqueIdName.getUniqueId()))
+          .map(uniqueIdName -> ConvertedUniqueId.create(uniqueIdName.uniqueId()))
           .switchIfEmpty(Single.just(ConvertedUniqueId.NAME_NOT_FOUND));
     }
   }
@@ -35,38 +35,6 @@ public class NameOrUniqueIdConverter {
       return Optional.of(UUID.fromString(uniqueIdName));
     } catch (IllegalArgumentException e) {
       return Optional.empty();
-    }
-  }
-
-  public static class ConvertedUniqueId {
-
-    private static final ConvertedUniqueId UUID_INVALID =
-        new ConvertedUniqueId(null, Result.UUID_INVALID);
-    private static final ConvertedUniqueId NAME_NOT_FOUND =
-        new ConvertedUniqueId(null, Result.NAME_NOT_FOUND);
-
-    private final UUID uniqueId;
-    private final Result result;
-
-    private ConvertedUniqueId(UUID uniqueId, Result result) {
-      this.uniqueId = uniqueId;
-      this.result = result;
-    }
-
-    private static ConvertedUniqueId create(UUID uniqueId) {
-      return new ConvertedUniqueId(uniqueId, Result.SUCCESS);
-    }
-
-    public UUID getUniqueId() {
-      if (result != Result.SUCCESS) {
-        throw new IllegalStateException("UniqueId is null. Check result before accessing uniqueId");
-      }
-
-      return uniqueId;
-    }
-
-    public Result getResult() {
-      return result;
     }
   }
 

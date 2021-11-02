@@ -8,11 +8,10 @@ import net.eaglefamily.playlegendtesttask.i18n.Translator;
 import net.eaglefamily.playlegendtesttask.repository.ban.Ban;
 import net.eaglefamily.playlegendtesttask.repository.ban.BanRepository;
 import net.eaglefamily.playlegendtesttask.repository.name.NameRepository;
-import net.eaglefamily.playlegendtesttask.util.DurationConverter;
-import net.eaglefamily.playlegendtesttask.util.DurationConverter.ConvertedDuration;
-import net.eaglefamily.playlegendtesttask.util.NameOrUniqueIdConverter;
-import net.eaglefamily.playlegendtesttask.util.NameOrUniqueIdConverter.ConvertedUniqueId;
-import net.eaglefamily.playlegendtesttask.util.NameOrUniqueIdConverter.Result;
+import net.eaglefamily.playlegendtesttask.util.command.converter.ConvertedDuration;
+import net.eaglefamily.playlegendtesttask.util.command.converter.ConvertedUniqueId;
+import net.eaglefamily.playlegendtesttask.util.command.converter.DurationConverter;
+import net.eaglefamily.playlegendtesttask.util.command.converter.NameOrUniqueIdConverter;
 import net.eaglefamily.playlegendtesttask.util.rx.RxBukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -45,6 +44,7 @@ public class BanCommand implements CommandExecutor {
     return new BanCommand(plugin, translator, nameRepository, banRepository);
   }
 
+  @SuppressWarnings("java:S3516")
   @Override
   public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
       @NotNull String label, @NotNull String[] args) {
@@ -63,23 +63,23 @@ public class BanCommand implements CommandExecutor {
 
   private Completable processWithConvertedUniqueId(CommandSender sender, String[] args,
       ConvertedUniqueId convertedUniqueId) {
-    if (convertedUniqueId.getResult() == Result.UUID_INVALID) {
+    if (convertedUniqueId.getResult() == ConvertedUniqueId.Result.UUID_INVALID) {
       translator.sendMessage(sender, "command.ban.uuid_invalid", args[0]);
       return Completable.complete();
-    } else if (convertedUniqueId.getResult() == Result.NAME_NOT_FOUND) {
+    } else if (convertedUniqueId.getResult() == ConvertedUniqueId.Result.NAME_NOT_FOUND) {
       translator.sendMessage(sender, "command.ban.player_not_found", args[0]);
       return Completable.complete();
     }
 
-    UUID uniqueId = convertedUniqueId.getUniqueId();
+    UUID uniqueId = convertedUniqueId.uniqueId();
     String durationArgument = args[1];
     ConvertedDuration convertedDuration = durationConverter.convertDuration(durationArgument);
-    if (convertedDuration.getResult() == DurationConverter.Result.INVALID_DURATION) {
+    if (convertedDuration.getResult() == ConvertedDuration.Result.INVALID_DURATION) {
       translator.sendMessage(sender, "command.ban.duration_invalid", durationArgument);
       return Completable.complete();
     }
 
-    long duration = convertedDuration.getDuration();
+    long duration = convertedDuration.duration();
     long endTimestamp = duration == 0 ? Ban.PERMANENT : System.currentTimeMillis() + duration;
     String cause = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
     Ban ban = Ban.create(uniqueId, endTimestamp, cause);
@@ -89,22 +89,24 @@ public class BanCommand implements CommandExecutor {
   }
 
   private void onBanCompleted(CommandSender sender, Ban ban) {
-    Player player = plugin.getServer().getPlayer(ban.getUniqueId());
+    Player player = plugin.getServer().getPlayer(ban.uniqueId());
     if (player != null) {
-      player.kick(translator.translate(player, "kick", ban.getEndTimestamp(),
-          new Date(ban.getEndTimestamp()), ban.getCause()));
+      player.kick(
+          translator.translate(player, "kick", ban.endTimestamp(), new Date(ban.endTimestamp()),
+              ban.cause()));
     }
 
-    nameRepository.getName(ban.getUniqueId())
+    nameRepository.getName(ban.uniqueId())
         .doOnEvent((value, error) -> {
+          // if name is not found
           if (value == null && error == null) {
-            translator.sendMessage(sender, "command.ban.success_unknown_name", ban.getUniqueId(),
-                ban.getEndTimestamp(), new Date(ban.getEndTimestamp()), ban.getCause());
+            translator.sendMessage(sender, "command.ban.success_unknown_name", ban.uniqueId(),
+                ban.endTimestamp(), new Date(ban.endTimestamp()), ban.cause());
           }
         })
         .doOnSuccess(uniqueIdName -> translator.sendMessage(sender, "command.ban.success",
-            uniqueIdName.getUniqueId(), uniqueIdName.getName(), ban.getEndTimestamp(),
-            new Date(ban.getEndTimestamp()), ban.getCause()))
+            uniqueIdName.uniqueId(), uniqueIdName.name(), ban.endTimestamp(),
+            new Date(ban.endTimestamp()), ban.cause()))
         .subscribe();
   }
 }

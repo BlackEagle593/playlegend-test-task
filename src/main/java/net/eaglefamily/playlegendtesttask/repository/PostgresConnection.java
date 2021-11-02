@@ -64,7 +64,7 @@ public class PostgresConnection {
     try (InputStream input = getClass().getResourceAsStream("/" + DATABASE_PROPERTIES)) {
       if (input == null) {
         Bukkit.getLogger()
-            .log(Level.SEVERE, () -> "Could not load database properties from " + "resources");
+            .log(Level.SEVERE, () -> "Could not load database properties from resources");
         return false;
       }
 

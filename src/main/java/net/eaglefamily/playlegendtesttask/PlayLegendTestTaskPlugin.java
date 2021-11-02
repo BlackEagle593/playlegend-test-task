@@ -5,7 +5,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import net.eaglefamily.playlegendtesttask.command.ban.BanCommand;
 import net.eaglefamily.playlegendtesttask.command.ban.BanTabCompleter;
 import net.eaglefamily.playlegendtesttask.command.unban.UnbanCommand;
-import net.eaglefamily.playlegendtesttask.command.unban.UnbanTabCompleter;
 import net.eaglefamily.playlegendtesttask.i18n.MessageFormatTranslator;
 import net.eaglefamily.playlegendtesttask.i18n.Translator;
 import net.eaglefamily.playlegendtesttask.listener.BannedLoginListener;
@@ -52,7 +51,6 @@ public class PlayLegendTestTaskPlugin extends JavaPlugin {
     PluginCommand unbanPluginCommand = getCommand("unban");
     checkNotNull(unbanPluginCommand);
     unbanPluginCommand.setExecutor(UnbanCommand.create(translator, nameRepository, banRepository));
-    unbanPluginCommand.setTabCompleter(UnbanTabCompleter.create());
   }
 
   private void registerListener() {

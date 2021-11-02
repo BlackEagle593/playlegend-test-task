@@ -61,10 +61,10 @@ public class PostgresNameRepository implements NameRepository {
     InsertOnDuplicateSetMoreStep<Record> query = postgresConnection.getDslContext()
         .insertInto(userNameTable)
         .columns(uniqueIdField, playerNameField)
-        .values(uniqueIdName.getUniqueId(), uniqueIdName.getName())
+        .values(uniqueIdName.uniqueId(), uniqueIdName.name())
         .onConflict(uniqueIdField)
         .doUpdate()
-        .set(playerNameField, uniqueIdName.getName());
+        .set(playerNameField, uniqueIdName.name());
     return Completable.fromPublisher(query)
         .subscribeOn(Schedulers.io())
         .observeOn(Schedulers.computation());

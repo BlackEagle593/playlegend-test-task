@@ -26,27 +26,27 @@ public class MessageFormatTranslator implements Translator {
 
   @Override
   public Component translateDefault(String key, Object... arguments) {
-    return translate(Locale.getDefault(), key, arguments);
+    return translateWithLocale(Locale.getDefault(), key, arguments);
   }
 
   @Override
   public Component translate(Audience audience, String key, Object... arguments) {
-    return translate(getLocaleOfAudience(audience), key, arguments);
+    return translateWithLocale(getLocaleOfAudience(audience), key, arguments);
   }
 
   @Override
   public String translateStringDefault(String key, Object... arguments) {
-    return translateString(Locale.getDefault(), key, arguments);
+    return translateStringWithLocale(Locale.getDefault(), key, arguments);
   }
 
   @Override
   public String translateString(Audience audience, String key, Object... arguments) {
-    return translateString(getLocaleOfAudience(audience), key, arguments);
+    return translateStringWithLocale(getLocaleOfAudience(audience), key, arguments);
   }
 
   @Override
   public void sendMessage(Audience audience, String key, Object... arguments) {
-    Component translatedComponent = translate(getLocaleOfAudience(audience), key, arguments);
+    Component translatedComponent = translateWithLocale(getLocaleOfAudience(audience), key, arguments);
     audience.sendMessage(translatedComponent);
   }
 
@@ -54,12 +54,12 @@ public class MessageFormatTranslator implements Translator {
     return audience instanceof Player player ? player.locale() : Locale.getDefault();
   }
 
-  private Component translate(Locale locale, String key, Object... arguments) {
-    String translatedString = translateString(locale, key, arguments);
+  private Component translateWithLocale(Locale locale, String key, Object... arguments) {
+    String translatedString = translateStringWithLocale(locale, key, arguments);
     return MiniMessage.get().parse(translatedString);
   }
 
-  private String translateString(Locale locale, String key, Object... arguments) {
+  private String translateStringWithLocale(Locale locale, String key, Object... arguments) {
     ResourceBundle bundle = externalResourceBundle.getBundle(locale);
     String pattern = bundle.getString(key);
     MessageFormat messageFormat = getMessageFormat(pattern, locale);

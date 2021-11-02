@@ -40,8 +40,8 @@ public class LocalNameRepository implements NameRepository {
 
   @Override
   public Completable saveUniqueIdName(UniqueIdName uniqueIdName) {
-    uniqueIdToName.put(uniqueIdName.getUniqueId(), uniqueIdName.getName());
-    nameToUniqueId.put(uniqueIdName.getName(), uniqueIdName.getUniqueId());
+    uniqueIdToName.put(uniqueIdName.uniqueId(), uniqueIdName.name());
+    nameToUniqueId.put(uniqueIdName.name(), uniqueIdName.uniqueId());
     return Completable.complete();
   }
 }

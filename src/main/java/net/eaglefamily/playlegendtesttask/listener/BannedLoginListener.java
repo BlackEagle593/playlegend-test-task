@@ -31,7 +31,7 @@ public class BannedLoginListener implements Listener {
     }
 
     event.setLoginResult(Result.KICK_BANNED);
-    event.kickMessage(translator.translateDefault("banned", ban.getEndTimestamp(),
-        new Date(ban.getEndTimestamp()), ban.getCause()));
+    event.kickMessage(translator.translateDefault("banned", ban.endTimestamp(),
+        new Date(ban.endTimestamp()), ban.cause()));
   }
 }

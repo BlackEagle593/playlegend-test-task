@@ -26,9 +26,6 @@ repositories {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/com.google.guava/guava
-//    implementation("com.google.guava:guava:31.0.1-jre")
-
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation("commons-io:commons-io:2.11.0")
 

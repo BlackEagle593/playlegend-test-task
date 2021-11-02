@@ -51,11 +51,11 @@ public class PostgresBanRepository implements BanRepository {
     InsertOnDuplicateSetMoreStep<Record> query = postgresConnection.getDslContext()
         .insertInto(banTable)
         .columns(uniqueIdField, causeField, endTimestampField)
-        .values(ban.getUniqueId(), ban.getCause(), ban.getEndTimestamp())
+        .values(ban.uniqueId(), ban.cause(), ban.endTimestamp())
         .onConflict(uniqueIdField)
         .doUpdate()
-        .set(causeField, ban.getCause())
-        .set(endTimestampField, ban.getEndTimestamp());
+        .set(causeField, ban.cause())
+        .set(endTimestampField, ban.endTimestamp());
     return Completable.fromPublisher(query)
         .subscribeOn(Schedulers.io())
         .observeOn(Schedulers.computation());

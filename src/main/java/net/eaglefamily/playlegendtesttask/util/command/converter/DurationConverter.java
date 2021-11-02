@@ -1,4 +1,4 @@
-package net.eaglefamily.playlegendtesttask.util;
+package net.eaglefamily.playlegendtesttask.util.command.converter;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class DurationConverter {
 
-  private static final String PERMANENT_PATTERN = "(perma|permanent|permanently)$";
+  private static final String PERMANENT_PATTERN = "(perma|permanent|permanently|0)$";
 
   private final List<TimeConversion> timeConversions =
       List.of(TimeConversion.of("[0-9]+(?=[sS]?$)", 1_000L),
@@ -44,43 +44,6 @@ public class DurationConverter {
     }
 
     return ConvertedDuration.INVALID_DURATION;
-  }
-
-  public static class ConvertedDuration {
-
-    private static final ConvertedDuration INVALID_DURATION =
-        new ConvertedDuration(0, Result.INVALID_DURATION);
-    private static final ConvertedDuration PERMANENT = new ConvertedDuration(0, Result.SUCCESS);
-
-    private final long duration;
-    private final Result result;
-
-    private ConvertedDuration(long duration, Result result) {
-      this.duration = duration;
-      this.result = result;
-    }
-
-    public static ConvertedDuration create(long duration) {
-      return new ConvertedDuration(duration, Result.SUCCESS);
-    }
-
-    public long getDuration() {
-      if (result != Result.SUCCESS) {
-        throw new IllegalStateException(
-            "Duration is invalid. Check result before accessing duration");
-      }
-
-      return duration;
-    }
-
-    public Result getResult() {
-      return result;
-    }
-  }
-
-  public enum Result {
-    SUCCESS,
-    INVALID_DURATION
   }
 
   private static class TimeConversion {

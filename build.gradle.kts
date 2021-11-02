@@ -15,14 +15,6 @@ repositories {
     mavenCentral()
 
     maven("https://papermc.io/repo/repository/maven-public/")
-    maven {
-        name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/BlackEagleEF/playlegend-test-task")
-        credentials {
-            username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-            password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
-        }
-    }
 }
 
 dependencies {

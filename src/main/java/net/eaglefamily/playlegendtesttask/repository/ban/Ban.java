@@ -32,4 +32,13 @@ public record Ban(UUID uniqueId, long endTimestamp, String cause) {
   public boolean isActive() {
     return endTimestamp == PERMANENT || System.currentTimeMillis() < endTimestamp;
   }
+
+  /**
+   * Get the time left of the ban in milliseconds.
+   *
+   * @return The time left of the ban.
+   */
+  public long timeLeft() {
+    return Math.max(0, endTimestamp - System.currentTimeMillis());
+  }
 }

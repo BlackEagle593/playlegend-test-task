@@ -1,5 +1,6 @@
 package net.eaglefamily.playlegendtesttask.listener;
 
+import java.time.Duration;
 import java.util.Date;
 import net.eaglefamily.playlegendtesttask.i18n.Translator;
 import net.eaglefamily.playlegendtesttask.repository.ban.Ban;
@@ -25,7 +26,7 @@ public class BannedLoginListener implements Listener {
   /**
    * Create the banned login listener.
    *
-   * @param translator The translator.
+   * @param translator    The translator.
    * @param banRepository The ban repository.
    * @return New instance of the banned login listener.
    */
@@ -46,7 +47,10 @@ public class BannedLoginListener implements Listener {
     }
 
     event.setLoginResult(Result.KICK_BANNED);
-    event.kickMessage(translator.translateDefault("banned", ban.endTimestamp(),
-        new Date(ban.endTimestamp()), ban.cause()));
+    Duration duration = Duration.ofMillis(ban.timeLeft());
+    event.kickMessage(
+        translator.translateDefault("banned", ban.endTimestamp(), new Date(ban.endTimestamp()),
+            duration.toSecondsPart(), duration.toMinutesPart(), duration.toHoursPart(),
+            duration.toDays(), ban.cause()));
   }
 }

@@ -1,6 +1,7 @@
 package net.eaglefamily.playlegendtesttask.command.ban;
 
 import io.reactivex.rxjava3.core.Completable;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
@@ -45,10 +46,10 @@ public class BanCommand implements CommandExecutor {
   /**
    * Create the ban command.
    *
-   * @param plugin The plugin which creates the ban command.
-   * @param translator The translator.
+   * @param plugin         The plugin which creates the ban command.
+   * @param translator     The translator.
    * @param nameRepository The name repository
-   * @param banRepository The ban repository.
+   * @param banRepository  The ban repository.
    * @return New instance of the ban command.
    */
   public static BanCommand create(Plugin plugin, Translator translator,
@@ -103,9 +104,11 @@ public class BanCommand implements CommandExecutor {
   private void onBanCompleted(CommandSender sender, Ban ban) {
     Player player = plugin.getServer().getPlayer(ban.uniqueId());
     if (player != null) {
+      Duration duration = Duration.ofMillis(ban.timeLeft());
       player.kick(
           translator.translate(player, "kick", ban.endTimestamp(), new Date(ban.endTimestamp()),
-              ban.cause()));
+              duration.toSecondsPart(), duration.toMinutesPart(), duration.toHoursPart(),
+              duration.toDays(), ban.cause()));
     }
 
     nameRepository.getName(ban.uniqueId())

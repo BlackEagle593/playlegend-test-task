@@ -46,7 +46,7 @@ class ExternalResourceBundle {
   }
 
   private void copyDefaultResourceBundle() {
-    try (InputStream inputStream = plugin.getResource(DIRECTORY_NAME + ".properties")) {
+    try (InputStream inputStream = plugin.getResource(BUNDLE_NAME + ".properties")) {
       if (inputStream == null) {
         return;
       }

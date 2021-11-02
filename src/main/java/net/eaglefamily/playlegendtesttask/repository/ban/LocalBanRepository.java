@@ -6,6 +6,9 @@ import io.reactivex.rxjava3.core.Maybe;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Local implementation of the ban repository which only holds the data until shutdown.
+ */
 public class LocalBanRepository implements BanRepository {
 
   private final Map<UUID, Ban> localBans = Maps.newConcurrentMap();
@@ -13,6 +16,11 @@ public class LocalBanRepository implements BanRepository {
   private LocalBanRepository() {
   }
 
+  /**
+   * Create the local ban repository.
+   *
+   * @return New instance of the local ban repository.
+   */
   public static LocalBanRepository create() {
     return new LocalBanRepository();
   }

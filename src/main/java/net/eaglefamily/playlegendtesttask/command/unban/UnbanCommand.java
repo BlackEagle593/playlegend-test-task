@@ -13,6 +13,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Command to unban players by name or by uniqueId.
+ */
 public class UnbanCommand implements CommandExecutor {
 
   private final Translator translator;
@@ -28,6 +31,14 @@ public class UnbanCommand implements CommandExecutor {
     nameOrUniqueIdConverter = NameOrUniqueIdConverter.create(nameRepository);
   }
 
+  /**
+   * Create the unban command.
+   *
+   * @param translator The translator.
+   * @param nameRepository The name repository.
+   * @param banRepository The ban repository.
+   * @return New instance of the unban command.
+   */
   public static UnbanCommand create(Translator translator, NameRepository nameRepository,
       BanRepository banRepository) {
     return new UnbanCommand(translator, nameRepository, banRepository);
@@ -54,10 +65,10 @@ public class UnbanCommand implements CommandExecutor {
 
   private Completable processWithConvertedUniqueId(CommandSender sender,
       String nameOrUniqueIdArgument, ConvertedUniqueId convertedUniqueId) {
-    if (convertedUniqueId.getResult() == ConvertedUniqueId.Result.UUID_INVALID) {
+    if (convertedUniqueId.result() == ConvertedUniqueId.Result.UUID_INVALID) {
       translator.sendMessage(sender, "command.unban.uuid_invalid", nameOrUniqueIdArgument);
       return Completable.complete();
-    } else if (convertedUniqueId.getResult() == ConvertedUniqueId.Result.NAME_NOT_FOUND) {
+    } else if (convertedUniqueId.result() == ConvertedUniqueId.Result.NAME_NOT_FOUND) {
       translator.sendMessage(sender, "command.unban.player_not_found", nameOrUniqueIdArgument);
       return Completable.complete();
     }

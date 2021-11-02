@@ -16,6 +16,9 @@ import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
+/**
+ * Postgres database connection using the plugins database.properties.
+ */
 public class PostgresConnection {
 
   private static final String DATABASE_PROPERTIES = "database.properties";
@@ -36,10 +39,21 @@ public class PostgresConnection {
     Runtime.getRuntime().addShutdownHook(new Thread(this::close));
   }
 
+  /**
+   * Create the postgres connection.
+   *
+   * @param plugin The plugin which wants to establish the connection.
+   * @return New instance of the postgres connection.
+   */
   public static PostgresConnection create(Plugin plugin) {
     return new PostgresConnection(plugin);
   }
 
+  /**
+   * Get the dsl context.
+   *
+   * @return The dsl context.
+   */
   public DSLContext getDslContext() {
     return dslContext;
   }

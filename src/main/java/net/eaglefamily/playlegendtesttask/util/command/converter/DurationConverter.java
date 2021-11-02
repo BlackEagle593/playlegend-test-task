@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Converts duration arguments.
+ */
 public class DurationConverter {
 
   private static final String PERMANENT_PATTERN = "(perma|permanent|permanently|0)$";
@@ -19,10 +22,21 @@ public class DurationConverter {
   private DurationConverter() {
   }
 
+  /**
+   * Create the duration converter.
+   *
+   * @return New isntance of the duration converter.
+   */
   public static DurationConverter create() {
     return new DurationConverter();
   }
 
+  /**
+   * Convert duration.
+   *
+   * @param durationText The text to convert.
+   * @return The converted duration.
+   */
   public ConvertedDuration convertDuration(String durationText) {
     if (durationText.matches(PERMANENT_PATTERN)) {
       return ConvertedDuration.PERMANENT;

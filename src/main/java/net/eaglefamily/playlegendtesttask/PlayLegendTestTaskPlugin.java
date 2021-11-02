@@ -18,6 +18,9 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Plugin entrypoint for play legend test task.
+ */
 public class PlayLegendTestTaskPlugin extends JavaPlugin {
 
   private Translator translator;

@@ -6,6 +6,9 @@ import io.reactivex.rxjava3.core.Maybe;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Local implementation of the name repository which only holds the data until shutdown.
+ */
 public class LocalNameRepository implements NameRepository {
 
   private final Map<UUID, String> uniqueIdToName = Maps.newConcurrentMap();
@@ -14,6 +17,11 @@ public class LocalNameRepository implements NameRepository {
   private LocalNameRepository() {
   }
 
+  /**
+   * Create the local name repository.
+   *
+   * @return New instance of the local name repository.
+   */
   public static LocalNameRepository create() {
     return new LocalNameRepository();
   }

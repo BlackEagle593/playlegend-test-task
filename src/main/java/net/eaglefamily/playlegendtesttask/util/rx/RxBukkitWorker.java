@@ -8,6 +8,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * RxJava {@code Schedluer.Worker} for synchronizing to the bukkit main thread.
+ */
 class RxBukkitWorker extends Scheduler.Worker {
 
   private final Plugin plugin;

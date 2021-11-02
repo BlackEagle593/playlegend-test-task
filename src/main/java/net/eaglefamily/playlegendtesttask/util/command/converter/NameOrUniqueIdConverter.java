@@ -5,6 +5,9 @@ import java.util.Optional;
 import java.util.UUID;
 import net.eaglefamily.playlegendtesttask.repository.name.NameRepository;
 
+/**
+ * Converts name or uniqueId arguments.
+ */
 public class NameOrUniqueIdConverter {
 
   private static final int MAX_PLAYER_NAME_LENGTH = 16;
@@ -15,10 +18,22 @@ public class NameOrUniqueIdConverter {
     this.nameRepository = nameRepository;
   }
 
+  /**
+   * Create the name or uniqueId converter.
+   *
+   * @param nameRepository The name repository.
+   * @return new instance of the name or uniqueId converter.
+   */
   public static NameOrUniqueIdConverter create(NameRepository nameRepository) {
     return new NameOrUniqueIdConverter(nameRepository);
   }
 
+  /**
+   * Convert name or uniqueId to {@code UUID}.
+   *
+   * @param nameOrUniqueId The name or uniqueId to convert.
+   * @return Single of the converted uniqueId.
+   */
   public Single<ConvertedUniqueId> convertNameOrUniqueId(String nameOrUniqueId) {
     if (nameOrUniqueId.length() > MAX_PLAYER_NAME_LENGTH) {
       return Single.just(parseUniqueId(nameOrUniqueId).map(ConvertedUniqueId::create)
@@ -36,11 +51,5 @@ public class NameOrUniqueIdConverter {
     } catch (IllegalArgumentException e) {
       return Optional.empty();
     }
-  }
-
-  public enum Result {
-    SUCCESS,
-    UUID_INVALID,
-    NAME_NOT_FOUND
   }
 }

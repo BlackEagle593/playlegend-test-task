@@ -16,6 +16,9 @@ import org.jooq.Record;
 import org.jooq.SelectConditionStep;
 import org.jooq.Table;
 
+/**
+ * Ban repository implementation using postgres.
+ */
 public class PostgresBanRepository implements BanRepository {
 
   private final PostgresConnection postgresConnection;
@@ -29,6 +32,12 @@ public class PostgresBanRepository implements BanRepository {
     this.postgresConnection = postgresConnection;
   }
 
+  /**
+   * Create the postgres ban repository.
+   *
+   * @param postgresConnection The postgres connection.
+   * @return New instance of the postgres ban repository.
+   */
   public static PostgresBanRepository create(PostgresConnection postgresConnection) {
     return new PostgresBanRepository(postgresConnection);
   }

@@ -15,6 +15,9 @@ import org.jooq.Record;
 import org.jooq.SelectConditionStep;
 import org.jooq.Table;
 
+/**
+ * Name repository implementation using postgres.
+ */
 public class PostgresNameRepository implements NameRepository {
 
   private final PostgresConnection postgresConnection;
@@ -27,6 +30,12 @@ public class PostgresNameRepository implements NameRepository {
     this.postgresConnection = postgresConnection;
   }
 
+  /**
+   * Create postgres name repository.
+   *
+   * @param postgresConnection The postgres connection.
+   * @return New instance of the postgres name repository.
+   */
   public static PostgresNameRepository create(PostgresConnection postgresConnection) {
     return new PostgresNameRepository(postgresConnection);
   }

@@ -9,6 +9,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 
+/**
+ * Disallow login of banned players.
+ */
 public class BannedLoginListener implements Listener {
 
   private final Translator translator;
@@ -19,10 +22,22 @@ public class BannedLoginListener implements Listener {
     this.banRepository = banRepository;
   }
 
+  /**
+   * Create the banned login listener.
+   *
+   * @param translator The translator.
+   * @param banRepository The ban repository.
+   * @return New instance of the banned login listener.
+   */
   public static BannedLoginListener create(Translator translator, BanRepository banRepository) {
     return new BannedLoginListener(translator, banRepository);
   }
 
+  /**
+   * Event handler method for {@code AsyncPlayerPreLoginEvent} to disallow login of banned players.
+   *
+   * @param event The async player pre login event.
+   */
   @EventHandler
   public void onAsyncPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
     Ban ban = banRepository.getBan(event.getUniqueId()).blockingGet();

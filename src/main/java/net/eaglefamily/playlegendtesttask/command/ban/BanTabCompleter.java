@@ -8,11 +8,19 @@ import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Tab completer for the ban command.
+ */
 public class BanTabCompleter implements TabCompleter {
 
   private BanTabCompleter() {
   }
 
+  /**
+   * Create the ban tab completer.
+   *
+   * @return New instance of the ban tab completer.
+   */
   public static BanTabCompleter create() {
     return new BanTabCompleter();
   }

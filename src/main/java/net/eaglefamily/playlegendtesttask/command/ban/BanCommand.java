@@ -20,6 +20,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Command to ban players by name or by uniqueId for a given duration or permanently.
+ */
 public class BanCommand implements CommandExecutor {
 
   private final Plugin plugin;
@@ -39,6 +42,15 @@ public class BanCommand implements CommandExecutor {
     durationConverter = DurationConverter.create();
   }
 
+  /**
+   * Create the ban command.
+   *
+   * @param plugin The plugin which creates the ban command.
+   * @param translator The translator.
+   * @param nameRepository The name repository
+   * @param banRepository The ban repository.
+   * @return New instance of the ban command.
+   */
   public static BanCommand create(Plugin plugin, Translator translator,
       NameRepository nameRepository, BanRepository banRepository) {
     return new BanCommand(plugin, translator, nameRepository, banRepository);
@@ -63,10 +75,10 @@ public class BanCommand implements CommandExecutor {
 
   private Completable processWithConvertedUniqueId(CommandSender sender, String[] args,
       ConvertedUniqueId convertedUniqueId) {
-    if (convertedUniqueId.getResult() == ConvertedUniqueId.Result.UUID_INVALID) {
+    if (convertedUniqueId.result() == ConvertedUniqueId.Result.UUID_INVALID) {
       translator.sendMessage(sender, "command.ban.uuid_invalid", args[0]);
       return Completable.complete();
-    } else if (convertedUniqueId.getResult() == ConvertedUniqueId.Result.NAME_NOT_FOUND) {
+    } else if (convertedUniqueId.result() == ConvertedUniqueId.Result.NAME_NOT_FOUND) {
       translator.sendMessage(sender, "command.ban.player_not_found", args[0]);
       return Completable.complete();
     }
@@ -74,7 +86,7 @@ public class BanCommand implements CommandExecutor {
     UUID uniqueId = convertedUniqueId.uniqueId();
     String durationArgument = args[1];
     ConvertedDuration convertedDuration = durationConverter.convertDuration(durationArgument);
-    if (convertedDuration.getResult() == ConvertedDuration.Result.INVALID_DURATION) {
+    if (convertedDuration.result() == ConvertedDuration.Result.INVALID_DURATION) {
       translator.sendMessage(sender, "command.ban.duration_invalid", durationArgument);
       return Completable.complete();
     }

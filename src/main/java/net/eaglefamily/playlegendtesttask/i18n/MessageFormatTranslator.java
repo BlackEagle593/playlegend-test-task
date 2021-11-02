@@ -11,6 +11,9 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+/**
+ * Translator implementation using {@code MessageFormat}.
+ */
 public class MessageFormatTranslator implements Translator {
 
   private final Map<String, MessageFormat> cachedMessageFormats = Maps.newConcurrentMap();
@@ -20,6 +23,12 @@ public class MessageFormatTranslator implements Translator {
     externalResourceBundle = ExternalResourceBundle.create(plugin);
   }
 
+  /**
+   * Create the message format translator.
+   *
+   * @param plugin The plugin which creates the message format translator.
+   * @return New instance of the message format translator.
+   */
   public static MessageFormatTranslator create(Plugin plugin) {
     return new MessageFormatTranslator(plugin);
   }
@@ -46,7 +55,8 @@ public class MessageFormatTranslator implements Translator {
 
   @Override
   public void sendMessage(Audience audience, String key, Object... arguments) {
-    Component translatedComponent = translateWithLocale(getLocaleOfAudience(audience), key, arguments);
+    Component translatedComponent =
+        translateWithLocale(getLocaleOfAudience(audience), key, arguments);
     audience.sendMessage(translatedComponent);
   }
 

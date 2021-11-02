@@ -5,6 +5,9 @@ import javax.sql.DataSource;
 import org.bukkit.Bukkit;
 import org.flywaydb.core.Flyway;
 
+/**
+ * Migrate database using flyway.
+ */
 class DatabaseMigrator {
 
   private DatabaseMigrator() {

@@ -15,6 +15,9 @@ import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
+/**
+ * External resource bundle loads the bundles from the plugins i18n directory.
+ */
 class ExternalResourceBundle {
 
   private static final String BUNDLE_NAME = "playlegend-test-task";

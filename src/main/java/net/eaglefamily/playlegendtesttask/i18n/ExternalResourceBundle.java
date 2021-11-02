@@ -42,8 +42,7 @@ class ExternalResourceBundle {
   }
 
   ResourceBundle getBundle(Locale locale) {
-    cachedBundles.computeIfAbsent(locale, ignored -> loadBundle(locale));
-    return ResourceBundle.getBundle(BUNDLE_NAME, locale);
+    return cachedBundles.computeIfAbsent(locale, ignored -> loadBundle(locale));
   }
 
   private void copyDefaultResourceBundle() {

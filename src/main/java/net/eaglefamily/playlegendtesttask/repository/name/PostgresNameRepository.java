@@ -22,12 +22,13 @@ public class PostgresNameRepository implements NameRepository {
 
   private final PostgresConnection postgresConnection;
 
-  private final Table<Record> userNameTable = table("user_name");
+  private final Table<Record> userNameTable;
   private final Field<UUID> uniqueIdField = field("unique_id", UUID.class);
   private final Field<String> playerNameField = field("player_name", String.class);
 
   private PostgresNameRepository(PostgresConnection postgresConnection) {
     this.postgresConnection = postgresConnection;
+    userNameTable = table(postgresConnection.getSchema() + ".user_name");
   }
 
   /**

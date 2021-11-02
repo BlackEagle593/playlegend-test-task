@@ -25,6 +25,7 @@ public class PostgresConnection {
 
   private final HikariDataSource dataSource;
   private final DSLContext dslContext;
+  private final String schema;
 
   private PostgresConnection(Plugin plugin) {
     System.getProperties().setProperty("org.jooq.no-logo", "true");
@@ -32,7 +33,7 @@ public class PostgresConnection {
     dataSource = new HikariDataSource(new HikariConfig(properties));
     dslContext = DSL.using(dataSource, SQLDialect.POSTGRES);
 
-    String schema = plugin.getName().toLowerCase(Locale.ROOT).replace("-", "");
+    schema = plugin.getName().toLowerCase(Locale.ROOT).replace("-", "");
     DatabaseMigrator migrator = DatabaseMigrator.create();
     migrator.migrate(dataSource, schema);
 
@@ -56,6 +57,15 @@ public class PostgresConnection {
    */
   public DSLContext getDslContext() {
     return dslContext;
+  }
+
+  /**
+   * Get the schema of the tables.
+   *
+   * @return The schema of the tables.
+   */
+  public String getSchema() {
+    return schema;
   }
 
   private Properties loadDatabaseFile(File dataFolder) {

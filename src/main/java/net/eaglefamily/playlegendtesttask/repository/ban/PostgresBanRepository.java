@@ -23,13 +23,14 @@ public class PostgresBanRepository implements BanRepository {
 
   private final PostgresConnection postgresConnection;
 
-  private final Table<Record> banTable = table("ban");
+  private final Table<Record> banTable;
   private final Field<UUID> uniqueIdField = field("unique_id", UUID.class);
   private final Field<Long> endTimestampField = field("end_timestamp", Long.class);
   private final Field<String> causeField = field("cause", String.class);
 
   private PostgresBanRepository(PostgresConnection postgresConnection) {
     this.postgresConnection = postgresConnection;
+    banTable = table(postgresConnection.getSchema() + ".ban");
   }
 
   /**

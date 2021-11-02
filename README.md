@@ -24,9 +24,21 @@ Banned players can be unbanned via command.
 
 ## Usage
 
-- Put the plugin into the plugins folder of the server.
-The server must run on paper version 1.17.1 using Java 17.
-- Set up a postgres database and edit the `database.properties`.
+- Create docker network
+```
+docker network create playlegend-test-task
+```
+
+- Start a postgres database container.
+```
+docker run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=123456 -e POSTGRES_DB=minecraft --network playlegend-test-task -p 5432:5432 -d postgres
+```
+
+- Pull and start the minecraft server container with the playlegend test task plugin.
+```
+docker pull ghcr.io/blackeagleef/playlegend-test-task:latest
+docker run --name playlegend-test-task --network playlegend-test-task -p 25565:25565 ghcr.io/blackeagleef/playlegend-test-task:latest
+```
 
 ### Ban command
 

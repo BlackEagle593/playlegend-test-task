@@ -10,6 +10,4 @@ description: The test task for the playlegend application is a simple ban system
 
 commands:
   ban:
-    permission: playlegend-test-task.command.ban
   unban:
-    permission: playlegend-test-task.command.unban
